@@ -25,22 +25,6 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       -
-        name: Checkout
-        uses: actions/checkout@v2
-      -
-        name: Docker meta
-        id: meta
-        uses: crazy-max/ghaction-docker-meta@v2
-        with:
-          # list of Docker images to use as base name for tags
-          images: |
-            iconsent/slow_cooker
-            iconsent/slow_cooker  
-          # generate Docker tags based on the following events/attributes
-          tags: |
-            type=ref,event=branch
-            type=semver,pattern={{major}}.{{minor}}
-      -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       -
@@ -59,8 +43,7 @@ jobs:
         with:
           platforms: linux/arm64, linux/amd64
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: iconsent/slow_cooker:latest
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
